@@ -9,16 +9,16 @@ describe 'Basic Concerts API', accepts: :json, returns: :json do
   it 'lists all concerts' do
     get '/concerts'
 
-    respond_with 200 do |json|
-      expect(json).to eq '[{"where":"Coachella","year":2013},{"where":"Woodstock","year":1969}]'
+    respond_with 200 do |concerts|
+      expect(concerts).to eq [{"where"=>"Coachella", "year"=>2013}, {"where"=>"Woodstock", "year"=>1969}]
     end
   end
 
   it 'shows a concert given an existing ID' do
     get '/concerts/2'
 
-    respond_with 200 do |json|
-      expect(json).to eq '{"where":"Woodstock","year":1969}'
+    respond_with 200 do |concert|
+      expect(concert).to eq "where"=>"Woodstock", "year"=>1969
     end
   end
 
@@ -31,24 +31,24 @@ describe 'Basic Concerts API', accepts: :json, returns: :json do
   it 'creates a concert given valid data' do
     post '/concerts', concert: {where: 'Austin'}
 
-    respond_with 201 do |json|
-      expect(json).to eq '{"where":"Austin","year":null}'
+    respond_with 201 do |concert|
+      expect(concert).to eq "where"=>"Austin", "year"=>nil
     end
   end
 
   it 'returns an error when creating a concert with invalid data' do
     post '/concerts', concert: {year: 2013}
 
-    respond_with 422 do |json|
-      expect(json).to eq '{"where":["can\'t be blank"]}'
+    respond_with 422 do |errors|
+      expect(errors).to eq "where"=>["can't be blank"]
     end
   end
 
   it 'updates a concert given an existing ID' do
     put '/concerts/1', concert: {year: 2011}
 
-    respond_with 200 do |json|
-      expect(json).to eq '{"where":"Coachella","year":2011}'
+    respond_with 200 do |concert|
+      expect(concert).to eq "where"=>"Coachella", "year"=>2011
     end
   end
 

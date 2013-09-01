@@ -10,7 +10,10 @@ end
 
 def respond_with(expected_status)
   assert_status expected_status
-  yield last_response.body if block_given?
+  if block_given?
+    json = JSON last_response.body
+    yield json
+  end
 end
 
 def assert_status(expected_status)
