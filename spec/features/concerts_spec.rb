@@ -2,70 +2,71 @@ require 'spec_helper'
 
 describe 'Basic Concerts API' do
   before do
-    Concert.create([{where: 'Coachella', year: 2013}, {where: 'Woodstock', year: 1969}])
-    set_headers 'Accept: application/json Content-Type: application/json'
+    Concert.create where: 'Coachella', year: 2013
+    Concert.create where: 'Woodstock', year: 1969
   end
 
-  after do
-    it { expect(page.response_headers['Content-Type']).to eq 'application/json; charset=utf-8' }
+  it 'lists all concerts' do
+    get '/concerts', format: :json
+
+    expect(last_response.status).to be 200
+    expect(last_response.headers['Content-Type']).to eq 'application/json; charset=utf-8'
+    expect(last_response.body).to eq '[{"where":"Coachella","year":2013},{"where":"Woodstock","year":1969}]'
   end
 
-  describe 'getting the list of concerts' do
-    get '/concerts'
+  it 'shows a concert given an existing ID' do
+    get '/concerts/2', format: :json
 
-    it { expect(page.status_code).to be 200 }
-    it { expect(page.body).to be "[{'where': 'Coachella', 'year': 2013}, {'where': 'Woodstock', 'year': 1969}]" }
+    expect(last_response.status).to be 200
+    expect(last_response.headers['Content-Type']).to eq 'application/json; charset=utf-8'
+    expect(last_response.body).to eq '{"where":"Woodstock","year":1969}'
   end
 
-  describe 'getting an existing concert' do
-    get '/concerts/1'
+  it 'returns an error when showing a concert with an unknown ID' do
+    get '/concerts/3', format: :json
 
-    it { expect(page.status_code).to be 200 }
-    it { expect(page.body).to be "{'where': 'Woodstock', 'year': 1969}" }
+    expect(last_response.status).to be 404
   end
 
-  describe 'getting an unknown concert' do
-    get '/concerts/3'
+  it 'creates a concert given valid data' do
+    post '/concerts', concert: {where: 'Austin'}, format: :json
 
-    it { expect(page.status_code).to be 404 }
+    expect(last_response.status).to be 201
+    expect(last_response.headers['Content-Type']).to eq 'application/json; charset=utf-8'
+    expect(last_response.body).to eq '{"where":"Austin","year":null}'
   end
 
-  describe 'creating a valid concert' do
-    post '/concerts', data: "{concert: {'where': 'Austin'}}"
+  it 'returns an error when creating a concert with invalid data' do
+    post '/concerts', concert: {year: 2013}, format: :json
 
-    it { expect(page.status_code).to be 201 }
-    it { expect(page.body).to be "{'where': 'Austin', 'year': null}" }
+    expect(last_response.status).to be 422
+    expect(last_response.headers['Content-Type']).to eq 'application/json; charset=utf-8'
+    expect(last_response.body).to eq '{"where":["can\'t be blank"]}'
   end
 
-  describe 'creating a invalid concert' do
-    post '/concerts', data: "{concert: {'year': 2013}}"
+  it 'updates a concert given an existing ID' do
+    put '/concerts/1', concert: {year: 2011}, format: :json
 
-    it { expect(page.status_code).to be 422 }
-    it { expect(page.body).to be %q({"where":["can't be blank"]}) }
+    expect(last_response.status).to be 200
+    expect(last_response.headers['Content-Type']).to eq 'application/json; charset=utf-8'
+    expect(last_response.body).to eq '{"where":"Coachella","year":2011}'
   end
 
-  describe 'updating an existing concert' do
-    put '/concerts/1', data: "{concert: {'year': 2011}}"
+  it 'returns an error when updating a concert with an unknown ID' do
+    put '/concerts/3', concert: {year: 2011}, format: :json
 
-    it { expect(page.status_code).to be 200 }
-    it { expect(page.body).to be "{'where': 'Coachella', 'year': 2011}" }
+    expect(last_response.status).to be 404
   end
 
-  describe 'updating an unknown concert' do
-    put '/concerts/3', data: "{concert: {'year': 2011}}"
+  it 'deletes a concert given an existing ID' do
+    delete '/concerts/1', format: :json
 
-    it { expect(page.status_code).to be 404 }
+    expect(last_response.status).to be 204
   end
 
-  describe 'deleting an existing concert' do
-    delete '/concerts/1'
+  it 'returns an error when deleting a concert with an unknown ID' do
+    delete '/concerts/3', format: :json
 
-    it { expect(page.status_code).to be 204 }
-  end
-
-  describe 'deleting an unknown concert' do
-    delete '/concerts/3'
-
-    it { expect(page.status_code).to be 404 }
+    expect(last_response.status).to be 404
   end
 end
