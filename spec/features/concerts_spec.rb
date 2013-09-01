@@ -6,63 +6,67 @@ describe 'Basic Concerts API', accepts: :json, returns: :json do
     Concert.create where: 'Woodstock', year: 1969
   end
 
-
   it 'lists all concerts' do
     get '/concerts'
 
-    expect(last_response.status).to be 200
-    expect(last_response.body).to eq '[{"where":"Coachella","year":2013},{"where":"Woodstock","year":1969}]'
+    respond_with 200 do |json|
+      expect(json).to eq '[{"where":"Coachella","year":2013},{"where":"Woodstock","year":1969}]'
+    end
   end
 
   it 'shows a concert given an existing ID' do
     get '/concerts/2'
 
-    expect(last_response.status).to be 200
-    expect(last_response.body).to eq '{"where":"Woodstock","year":1969}'
+    respond_with 200 do |json|
+      expect(json).to eq '{"where":"Woodstock","year":1969}'
+    end
   end
 
   it 'returns an error when showing a concert with an unknown ID' do
     get '/concerts/3'
 
-    expect(last_response.status).to be 404
+    respond_with 404
   end
 
   it 'creates a concert given valid data' do
     post '/concerts', concert: {where: 'Austin'}
 
-    expect(last_response.status).to be 201
-    expect(last_response.body).to eq '{"where":"Austin","year":null}'
+    respond_with 201 do |json|
+      expect(json).to eq '{"where":"Austin","year":null}'
+    end
   end
 
   it 'returns an error when creating a concert with invalid data' do
     post '/concerts', concert: {year: 2013}
 
-    expect(last_response.status).to be 422
-    expect(last_response.body).to eq '{"where":["can\'t be blank"]}'
+    respond_with 422 do |json|
+      expect(json).to eq '{"where":["can\'t be blank"]}'
+    end
   end
 
   it 'updates a concert given an existing ID' do
     put '/concerts/1', concert: {year: 2011}
 
-    expect(last_response.status).to be 200
-    expect(last_response.body).to eq '{"where":"Coachella","year":2011}'
+    respond_with 200 do |json|
+      expect(json).to eq '{"where":"Coachella","year":2011}'
+    end
   end
 
   it 'returns an error when updating a concert with an unknown ID' do
     put '/concerts/3', concert: {year: 2011}
 
-    expect(last_response.status).to be 404
+    respond_with 404
   end
 
   it 'deletes a concert given an existing ID' do
     delete '/concerts/1'
 
-    expect(last_response.status).to be 204
+    respond_with 204
   end
 
   it 'returns an error when deleting a concert with an unknown ID' do
     delete '/concerts/3'
 
-    expect(last_response.status).to be 404
+    respond_with 404
   end
 end
