@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Basic Concerts API', accepts: :json do
+describe 'Basic Concerts API', accepts: :json, returns: :json do
   before do
     Concert.create where: 'Coachella', year: 2013
     Concert.create where: 'Woodstock', year: 1969
@@ -11,7 +11,6 @@ describe 'Basic Concerts API', accepts: :json do
     get '/concerts'
 
     expect(last_response.status).to be 200
-    expect(last_response.headers['Content-Type']).to eq 'application/json; charset=utf-8'
     expect(last_response.body).to eq '[{"where":"Coachella","year":2013},{"where":"Woodstock","year":1969}]'
   end
 
@@ -19,7 +18,6 @@ describe 'Basic Concerts API', accepts: :json do
     get '/concerts/2'
 
     expect(last_response.status).to be 200
-    expect(last_response.headers['Content-Type']).to eq 'application/json; charset=utf-8'
     expect(last_response.body).to eq '{"where":"Woodstock","year":1969}'
   end
 
@@ -33,7 +31,6 @@ describe 'Basic Concerts API', accepts: :json do
     post '/concerts', concert: {where: 'Austin'}
 
     expect(last_response.status).to be 201
-    expect(last_response.headers['Content-Type']).to eq 'application/json; charset=utf-8'
     expect(last_response.body).to eq '{"where":"Austin","year":null}'
   end
 
@@ -41,7 +38,6 @@ describe 'Basic Concerts API', accepts: :json do
     post '/concerts', concert: {year: 2013}
 
     expect(last_response.status).to be 422
-    expect(last_response.headers['Content-Type']).to eq 'application/json; charset=utf-8'
     expect(last_response.body).to eq '{"where":["can\'t be blank"]}'
   end
 
@@ -49,7 +45,6 @@ describe 'Basic Concerts API', accepts: :json do
     put '/concerts/1', concert: {year: 2011}
 
     expect(last_response.status).to be 200
-    expect(last_response.headers['Content-Type']).to eq 'application/json; charset=utf-8'
     expect(last_response.body).to eq '{"where":"Coachella","year":2011}'
   end
 
