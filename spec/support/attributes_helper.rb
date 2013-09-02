@@ -22,7 +22,7 @@ def random_values_for_attributes
 end
 
 def random_attribute_value(options)
-  if options[:can_be_nil] && [true, false].sample
+  if options[:can_be_nil] && true # [true, false].sample
     nil
   else
     case options[:type]
