@@ -40,7 +40,9 @@ resource 'Concerts', accepts: :json, returns: :json do
   get '/concerts/:id' do
     example_request 'Get an existing concert', id: 2 do
       respond_with 200 do |concert|
-        expect(concert).to eq "where"=>"Woodstock", "year"=>1969
+        expect(concert).to be_a Hash
+        expect(concert['where']).to be_a String
+        expect(concert['year']).to be_an Integer if concert['year']
       end
     end
 
@@ -52,13 +54,19 @@ resource 'Concerts', accepts: :json, returns: :json do
   post '/concerts' do
     example_request 'Create a valid concert', concert: {where: 'Austin'} do
       respond_with 201 do |concert|
-        expect(concert).to eq "where"=>"Austin", "year"=>nil
+        expect(concert).to be_a Hash
+        expect(concert['where']).to be_a String
+        expect(concert['year']).to be_an Integer if concert['year']
+
+        expect(concert['where']).to eq 'Austin'
       end
     end
 
     example_request 'Create an invalid concert', concert: {year: 2013} do
       respond_with 422 do |errors|
-        expect(errors).to eq "where"=>["can't be blank"]
+        expect(errors).to be_a Hash
+
+        expect(errors["where"]).to eq ["can't be blank"]
       end
     end
   end
@@ -66,7 +74,11 @@ resource 'Concerts', accepts: :json, returns: :json do
   put '/concerts/:id' do
     example_request 'Update an existing concert', id: 1, concert: {year: 2011} do
       respond_with 200 do |concert|
-        expect(concert).to eq "where"=>"Coachella", "year"=>2011
+        expect(concert).to be_a Hash
+        expect(concert['where']).to be_a String
+        expect(concert['year']).to be_an Integer if concert['year']
+
+        expect(concert["year"]).to be 2011
       end
     end
 
