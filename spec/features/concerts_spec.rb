@@ -7,10 +7,32 @@ resource 'Concerts', accepts: :json, returns: :json do
     Concert.create where: 'Woodstock', year: 1969
   end
 
+# now the problem with this test and documentation is that we are testing one
+# specific case, depending on the exact fixtures above! It would be much better
+# if you could tell our users what to expect IN EVERY CASE, not just with these
+# given fixtures. So they know for instance how to parse it. What do they get?
+# A JSON, sure, but is it an array? Or a hash? Which keys does it include? Which
+# types are the values in? All this information is very valuable to API clients,
+# and also if you know this, we can have tests that ensure that what we promise
+# to our clients is actually what happens. So let's start by the INDEX. We
+# don't need to test that the exact parsed JSON is [{"where"=>"Coachella", "year"=>2013}, {"where"=>"Woodstock", "year"=>1969}]
+# This is not very valuable or intuitive as a description, and the test is
+# dependent on the fixture. But what we can test (and describe) generically is:
+# 1) we will return (in JSON) an ARRAY
+# 2) each array item will be (in JSON) a HASH
+# 3) each item will have the key "where" and a String
+# 4) each item will have the key "year" and an Integer or nil.
+#
+# Then, just specific to the fixtures above, we can check the size
   get '/concerts' do
     example_request 'Get the list of concerts' do
       respond_with 200 do |concerts|
-        expect(concerts).to eq [{"where"=>"Coachella", "year"=>2013}, {"where"=>"Woodstock", "year"=>1969}]
+        expect(concerts).to be_an Array
+        expect(concerts.map{|c| c['where']}.all? {|value| value.is_a? String}).to be_true
+        expect(concerts.map{|c| c['year']}.compact.all? {|value| value.is_a? Integer}).to be_true
+
+        expect(concerts).not_to be_empty
+        expect(concerts.size).to be 2
       end
     end
   end
