@@ -32,8 +32,8 @@
       <h1>Concerts API</h1>
 
       <div class="article">
-        <h2>creates a concert given valid data</h2>
-        <h3>POST /concerts</h3>
+        <h2>Get an existing concert</h2>
+        <h3>GET /concerts/:id</h3>
 
 
           <h3>Request</h3>
@@ -41,15 +41,12 @@
           <h4>Headers</h4>
           <pre class="request headers">Accept: application/json
 Host: example.org
-Content-Type: application/x-www-form-urlencoded
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">POST /concerts</pre>
+          <pre class="request route highlight">GET /concerts/2</pre>
 
 
-            <h4>Body</h4>
-            <pre class="request body">concert[where]=Austin</pre>
 
 
             <h3>Response</h3>
@@ -58,17 +55,16 @@ Cookie: </pre>
 X-XSS-Protection: 1; mode=block
 X-Content-Type-Options: nosniff
 X-UA-Compatible: chrome=1
-Location: http://example.org/concerts/3
 Content-Type: application/json; charset=utf-8
-ETag: &quot;82569fadb265f9ebbec2a320f168358c&quot;
+ETag: &quot;250d253375488412064263109dc61759&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: 170084ce-a996-4a29-afc6-a46f60e53413
-X-Runtime: 0.020946
-Content-Length: 30</pre>
+X-Request-Id: 5de80c97-4146-427f-ae40-7135ced75442
+X-Runtime: 0.003018
+Content-Length: 33</pre>
             <h4>Status</h4>
-            <pre class="response status">201 Created</pre>
+            <pre class="response status">200 OK</pre>
               <h4>Body</h4>
-              <pre class="response body">{"where":"Austin","year":null}</pre>
+              <pre class="response body">{"where":"Woodstock","year":1969}</pre>
       </div>
     </div>
   </body>
