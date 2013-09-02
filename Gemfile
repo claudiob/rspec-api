@@ -41,5 +41,9 @@ end
 
 group :test do
   gem 'rspec-rails'
-  gem 'rack-test'
+end
+
+group :development, :test do
+  gem 'rspec_api_documentation', github: 'zipmark/rspec_api_documentation'
+  gem 'debugger'
 end

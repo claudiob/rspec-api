@@ -1,72 +1,73 @@
 require 'spec_helper'
+require 'rspec_api_documentation/dsl'
 
-describe 'Basic Concerts API', accepts: :json, returns: :json do
+resource 'Concerts', accepts: :json, returns: :json do
   before do
     Concert.create where: 'Coachella', year: 2013
     Concert.create where: 'Woodstock', year: 1969
   end
 
-  it 'lists all concerts' do
-    get '/concerts'
-
-    respond_with 200 do |concerts|
-      expect(concerts).to eq [{"where"=>"Coachella", "year"=>2013}, {"where"=>"Woodstock", "year"=>1969}]
+  get '/concerts' do
+    example_request 'lists all concerts' do
+      respond_with 200 do |concerts|
+        expect(concerts).to eq [{"where"=>"Coachella", "year"=>2013}, {"where"=>"Woodstock", "year"=>1969}]
+      end
     end
   end
 
-  it 'shows a concert given an existing ID' do
-    get '/concerts/2'
-
-    respond_with 200 do |concert|
-      expect(concert).to eq "where"=>"Woodstock", "year"=>1969
+  get '/concerts/2' do
+    example_request 'shows a concert given an existing ID' do
+      respond_with 200 do |concert|
+        expect(concert).to eq "where"=>"Woodstock", "year"=>1969
+      end
     end
   end
 
-  it 'returns an error when showing a concert with an unknown ID' do
-    get '/concerts/3'
-
-    respond_with 404
-  end
-
-  it 'creates a concert given valid data' do
-    post '/concerts', concert: {where: 'Austin'}
-
-    respond_with 201 do |concert|
-      expect(concert).to eq "where"=>"Austin", "year"=>nil
+  get '/concerts/3' do
+    example_request 'returns an error when showing a concert with an unknown ID' do
+      respond_with 404
     end
   end
 
-  it 'returns an error when creating a concert with invalid data' do
-    post '/concerts', concert: {year: 2013}
-
-    respond_with 422 do |errors|
-      expect(errors).to eq "where"=>["can't be blank"]
+  post '/concerts' do
+    example_request 'creates a concert given valid data', concert: {where: 'Austin'} do
+      respond_with 201 do |concert|
+        expect(concert).to eq "where"=>"Austin", "year"=>nil
+      end
     end
   end
 
-  it 'updates a concert given an existing ID' do
-    put '/concerts/1', concert: {year: 2011}
-
-    respond_with 200 do |concert|
-      expect(concert).to eq "where"=>"Coachella", "year"=>2011
+  post '/concerts' do
+    example_request 'returns an error when creating a concert with invalid data', concert: {year: 2013} do
+      respond_with 422 do |errors|
+        expect(errors).to eq "where"=>["can't be blank"]
+      end
     end
   end
 
-  it 'returns an error when updating a concert with an unknown ID' do
-    put '/concerts/3', concert: {year: 2011}
-
-    respond_with 404
+  put '/concerts/1' do
+    example_request 'updates a concert given an existing ID', concert: {year: 2011} do
+      respond_with 200 do |concert|
+        expect(concert).to eq "where"=>"Coachella", "year"=>2011
+      end
+    end
   end
 
-  it 'deletes a concert given an existing ID' do
-    delete '/concerts/1'
-
-    respond_with 204
+  put '/concerts/3' do
+    example_request 'returns an error when updating a concert with an unknown ID', concert: {year: 2011} do
+      respond_with 404
+    end
   end
 
-  it 'returns an error when deleting a concert with an unknown ID' do
-    delete '/concerts/3'
+  delete '/concerts/1' do
+    example_request 'deletes a concert given an existing ID' do
+      respond_with 204
+    end
+  end
 
-    respond_with 404
+  delete '/concerts/3' do
+    example_request 'returns an error when deleting a concert with an unknown ID' do
+      respond_with 404
+    end
   end
 end
