@@ -14,6 +14,7 @@ def respond_with(expected_status)
   if block_given? || success? && returns_content?
     json = JSON response_body
     assert_attributes json if success?
+    assert_instances json
     yield json if block_given?
   end
 end
