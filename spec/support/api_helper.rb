@@ -22,15 +22,16 @@ def assert_status(expected_status)
   expect(status).to be expected_status
 end
 
-def has_attribute(name, type)
-  (metadata[:attributes] ||= {})[name] = type
+def has_attribute(name, type, options = {})
+  (metadata[:attributes] ||= {})[name] = options.merge(type: type)
 end
 
 def assert_attributes(json)
   expect(json).to be_a (example.metadata[:array] ? Array : Hash)
-  example.metadata[:attributes].each do |name, type|
+  example.metadata[:attributes].each do |name, options|
     values = Array.wrap(json).map{|item| item[name.to_s]}
-    expect(values.all? {|value| value.is_a? type}).to be_true
+    values.compact! if options[:can_be_nil]
+    expect(values.all? {|value| value.is_a? options[:type]}).to be_true
   end
 end
 

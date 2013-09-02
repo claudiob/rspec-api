@@ -3,6 +3,7 @@ require 'rspec_api_documentation/dsl'
 
 resource 'Concerts', accepts: :json, returns: :json do
   has_attribute :where, String
+  has_attribute :year, Integer, can_be_nil: true
 
   before do
     Concert.create where: 'Coachella', year: 2013
@@ -12,8 +13,6 @@ resource 'Concerts', accepts: :json, returns: :json do
   get '/concerts', array: true do
     example_request 'Get the list of concerts' do
       respond_with 200 do |concerts|
-        expect(concerts.map{|c| c['year']}.compact.all? {|value| value.is_a? Integer}).to be_true
-
         expect(concerts).not_to be_empty
         expect(concerts.size).to be 2
       end
@@ -23,7 +22,6 @@ resource 'Concerts', accepts: :json, returns: :json do
   get '/concerts/:id' do
     example_request 'Get an existing concert', id: 2 do
       respond_with 200 do |concert|
-        expect(concert['year']).to be_an Integer if concert['year']
       end
     end
 
@@ -35,8 +33,6 @@ resource 'Concerts', accepts: :json, returns: :json do
   post '/concerts' do
     example_request 'Create a valid concert', concert: {where: 'Austin'} do
       respond_with 201 do |concert|
-        expect(concert['year']).to be_an Integer if concert['year']
-
         expect(concert['where']).to eq 'Austin'
       end
     end
@@ -51,8 +47,6 @@ resource 'Concerts', accepts: :json, returns: :json do
   put '/concerts/:id' do
     example_request 'Update an existing concert', id: 1, concert: {year: 2011} do
       respond_with 200 do |concert|
-        expect(concert['year']).to be_an Integer if concert['year']
-
         expect(concert["year"]).to be 2011
       end
     end
