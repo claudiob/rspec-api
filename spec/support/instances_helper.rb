@@ -13,3 +13,7 @@ end
 def assert_instances(json)
   expect(json).not_to be_empty
 end
+
+def existing(key)
+  -> { instances.pluck(key).first }
+end
