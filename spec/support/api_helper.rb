@@ -11,11 +11,19 @@ end
 
 def respond_with(expected_status)
   assert_status expected_status
-  if block_given?
+  if block_given? || success? && returns_content?
     json = JSON response_body
-    assert_attributes json if status < 400
-    yield json
+    assert_attributes json if success?
+    yield json if block_given?
   end
+end
+
+def success?
+  status < 400
+end
+
+def returns_content?
+  [100, 101, 102, 204, 205, 304].exclude? status
 end
 
 def assert_status(expected_status)

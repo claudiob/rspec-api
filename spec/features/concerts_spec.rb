@@ -21,8 +21,7 @@ resource 'Concerts', accepts: :json, returns: :json do
 
   get '/concerts/:id' do
     example_request 'Get an existing concert', id: 2 do
-      respond_with 200 do |concert|
-      end
+      respond_with 200
     end
 
     example_request 'Get an unknown concert', id: 3 do
