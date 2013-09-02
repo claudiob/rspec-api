@@ -13,7 +13,7 @@ resource 'Concerts', accepts: :json, returns: :json do
     end
   end
 
-  get '/concerts/?when=:when', array: true do
+  get '/concerts/?when=:when', array: true, on: :year do
     request 'Get the concerts in a year', when: existing(:year) do
       respond_with :ok do |concerts|
         concerts.each do |concert|

@@ -16,7 +16,8 @@ end
 def random_values_for_attributes
   {}.tap do |values|
     example.metadata[:attributes].each do |name, options|
-      values[name] = random_attribute_value options
+      can_be_nil = options[:can_be_nil] && (name != example.metadata[:on])
+      values[name] = random_attribute_value options.merge(can_be_nil: can_be_nil)
     end
   end
 end
