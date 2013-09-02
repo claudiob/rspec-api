@@ -16,10 +16,18 @@ end
 def random_values_for_attributes
   {}.tap do |values|
     example.metadata[:attributes].each do |name, options|
-      values[name] = case options[:type]
-        when :string then [*('a'..'z'), *('A'..'Z')].sample(Random.rand 32).join
-        when :integer then Random.rand(2**16)
-      end
+      values[name] = random_attribute_value options
+    end
+  end
+end
+
+def random_attribute_value(options)
+  if options[:can_be_nil] && [true, false].sample
+    nil
+  else
+    case options[:type]
+      when :string then [*('a'..'z'), *('A'..'Z')].sample(Random.rand 32).join
+      when :integer then Random.rand(2**16)
     end
   end
 end
