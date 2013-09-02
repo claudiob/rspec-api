@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Concerts API</title>
+    <meta charset="utf-8">
+    <style>
+      td.required .name:after {
+        float: right;
+        content: "required";
+        font-weight: normal;
+        color: #F08080;
+      }
+
+      p {
+        padding: 15px;
+        font-size: 130%;
+      }
+
+      pre {
+        white-space: pre-wrap;
+      }
+
+      body {
+        margin-left: auto;
+        margin-right: auto;
+        width: 900px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Concerts API</h1>
+
+      <div class="article">
+        <h2>updates a concert given an existing ID</h2>
+        <h3>PUT /concerts/:id</h3>
+
+
+          <h3>Request</h3>
+
+          <h4>Headers</h4>
+          <pre class="request headers">Accept: application/json
+Host: example.org
+Content-Type: application/x-www-form-urlencoded
+Cookie: </pre>
+
+          <h4>Route</h4>
+          <pre class="request route highlight">PUT /concerts/1</pre>
+
+
+            <h4>Body</h4>
+            <pre class="request body">concert[year]=2011</pre>
+
+
+            <h3>Response</h3>
+            <h4>Headers</h4>
+            <pre class="response headers">X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-UA-Compatible: chrome=1
+Location: http://example.org/concerts/1
+Content-Type: application/json; charset=utf-8
+ETag: &quot;438b8dbe7aefb27014e71eac481deea8&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: 73773dcb-67ef-4aa3-b8d5-b30a65d5e8db
+X-Runtime: 0.006834
+Content-Length: 33</pre>
+            <h4>Status</h4>
+            <pre class="response status">200 OK</pre>
+              <h4>Body</h4>
+              <pre class="response body">{"where":"Coachella","year":2011}</pre>
+      </div>
+    </div>
+  </body>
+</html>

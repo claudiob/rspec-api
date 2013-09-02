@@ -15,16 +15,14 @@ resource 'Concerts', accepts: :json, returns: :json do
     end
   end
 
-  get '/concerts/2' do
-    example_request 'shows a concert given an existing ID' do
+  get '/concerts/:id' do
+    example_request 'shows a concert given an existing ID', id: 2 do
       respond_with 200 do |concert|
         expect(concert).to eq "where"=>"Woodstock", "year"=>1969
       end
     end
-  end
 
-  get '/concerts/3' do
-    example_request 'returns an error when showing a concert with an unknown ID' do
+    example_request 'returns an error when showing a concert with an unknown ID', id: 3 do
       respond_with 404
     end
   end
@@ -35,9 +33,7 @@ resource 'Concerts', accepts: :json, returns: :json do
         expect(concert).to eq "where"=>"Austin", "year"=>nil
       end
     end
-  end
 
-  post '/concerts' do
     example_request 'returns an error when creating a concert with invalid data', concert: {year: 2013} do
       respond_with 422 do |errors|
         expect(errors).to eq "where"=>["can't be blank"]
@@ -45,28 +41,24 @@ resource 'Concerts', accepts: :json, returns: :json do
     end
   end
 
-  put '/concerts/1' do
-    example_request 'updates a concert given an existing ID', concert: {year: 2011} do
+  put '/concerts/:id' do
+    example_request 'updates a concert given an existing ID', id: 1, concert: {year: 2011} do
       respond_with 200 do |concert|
         expect(concert).to eq "where"=>"Coachella", "year"=>2011
       end
     end
-  end
 
-  put '/concerts/3' do
-    example_request 'returns an error when updating a concert with an unknown ID', concert: {year: 2011} do
+    example_request 'returns an error when updating a concert with an unknown ID', id: 3, concert: {year: 2011} do
       respond_with 404
     end
   end
 
-  delete '/concerts/1' do
-    example_request 'deletes a concert given an existing ID' do
+  delete '/concerts/:id' do
+    example_request 'deletes a concert given an existing ID', id: 1 do
       respond_with 204
     end
-  end
 
-  delete '/concerts/3' do
-    example_request 'returns an error when deleting a concert with an unknown ID' do
+    example_request 'returns an error when deleting a concert with an unknown ID', id: 3 do
       respond_with 404
     end
   end
