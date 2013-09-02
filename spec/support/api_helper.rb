@@ -27,7 +27,7 @@ def returns_content?
 end
 
 def assert_status(expected_status)
-  expect(status).to be expected_status
+  expect(status).to be Rack::Utils.status_code(expected_status)
 end
 
 def has_attribute(name, type, options = {})
