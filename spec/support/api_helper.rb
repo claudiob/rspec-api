@@ -13,6 +13,7 @@ def respond_with(expected_status)
   assert_status expected_status
   if block_given?
     json = JSON response_body
+    expect(json).to be_a (example.metadata[:array] ? Array : Hash)
     yield json
   end
 end
