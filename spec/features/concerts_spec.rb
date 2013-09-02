@@ -2,8 +2,8 @@ require 'spec_helper'
 require 'rspec_api_documentation/dsl'
 
 resource 'Concerts', accepts: :json, returns: :json do
-  has_attribute :where, String
-  has_attribute :year, Integer, can_be_nil: true
+  has_attribute :where, :string
+  has_attribute :year, :integer, can_be_nil: true
 
   get '/concerts', array: true do
     request 'Get the list of concerts' do
