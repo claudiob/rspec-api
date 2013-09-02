@@ -17,3 +17,8 @@ end
 def existing(key)
   -> { instances.pluck(key).first }
 end
+
+def unknown(key)
+  keys = 0.downto(-Float::INFINITY).lazy
+  -> { keys.reject {|value| instances.exists? key => value}.first }
+end

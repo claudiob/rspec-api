@@ -18,16 +18,10 @@ resource 'Concerts', accepts: :json, returns: :json do
       respond_with :ok
     end
 
-    request 'Get an unknown concert', id: 3 do
+    request 'Get an unknown concert', id: unknown(:id) do
       respond_with :not_found
     end
   end
-
-  # Let's talk about those :id.. looks like only /concerts/2 is OK and
-  # concerts/3 is not, but what we want to express is something different
-  # what we mean is: if you pass the id of an existing instance then OK
-  # otherwise KO. How can we do this WITHOUT depending on the instances
-  # above?
 
   post '/concerts' do
     request 'Create a valid concert', concert: {where: 'Austin'} do
@@ -44,23 +38,23 @@ resource 'Concerts', accepts: :json, returns: :json do
   end
 
   put '/concerts/:id' do
-    request 'Update an existing concert', id: 1, concert: {year: 2011} do
+    request 'Update an existing concert', id: existing(:id), concert: {year: 2011} do
       respond_with :ok do |concert|
         expect(concert["year"]).to be 2011
       end
     end
 
-    request 'Update an unknown concert', id: 3, concert: {year: 2011} do
+    request 'Update an unknown concert', id: unknown(:id), concert: {year: 2011} do
       respond_with :not_found
     end
   end
 
   delete '/concerts/:id' do
-    request 'Delete an existing concert', id: 1 do
+    request 'Delete an existing concert', id: existing(:id) do
       respond_with :no_content
     end
 
-    request 'Delete an unknown concert', id: 3 do
+    request 'Delete an unknown concert', id: unknown(:id) do
       respond_with :not_found
     end
   end
