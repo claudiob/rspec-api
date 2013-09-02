@@ -13,6 +13,16 @@ resource 'Concerts', accepts: :json, returns: :json do
     end
   end
 
+  get '/concerts/?when=:when', array: true do
+    request 'Get the concerts in a year', when: existing(:year) do
+      respond_with :ok do |concerts|
+        concerts.each do |concert|
+          expect(concert['year']).to eq request_params[:when]
+        end
+      end
+    end
+  end
+
   get '/locations/:location/concerts', array: true do
     request 'Get the concerts in a location', location: apply(:downcase, to: existing(:where)) do
       respond_with :ok do |concerts|
