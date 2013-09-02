@@ -13,3 +13,14 @@ def assert_attributes(json)
     expect(values.all? {|value| value.is_a? options[:type]}).to be_true
   end
 end
+
+def random_values_for_attributes
+  {}.tap do |values|
+    example.metadata[:attributes].each do |name, options|
+      values[name] = case options[:type].to_s
+        when 'String' then [*('a'..'z'), *('A'..'Z')].sample(Random.rand 32).join
+        when 'Integer' then Random.rand(2**16)
+      end
+    end
+  end
+end
