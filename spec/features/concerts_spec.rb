@@ -17,7 +17,7 @@ resource 'Concerts', accepts: :json, returns: :json do
     request 'Get the concerts in a location', location: apply(:downcase, to: existing(:where)) do
       respond_with :ok do |concerts|
         concerts.each do |concert|
-          expect(concert['where'].downcase).to eq example.metadata[:request_params][:location]
+          expect(concert['where'].downcase).to eq request_params[:location]
         end
       end
     end

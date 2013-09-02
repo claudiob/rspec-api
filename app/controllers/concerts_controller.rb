@@ -2,7 +2,7 @@ class ConcertsController < ApplicationController
   before_action :set_concert, only: [:show, :edit, :update, :destroy]
 
   def index
-    @concerts = Concert.all
+    @concerts = Concert.filter params
   end
 
   def show

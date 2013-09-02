@@ -15,11 +15,15 @@ def request(description, request_params = {})
   yield if block_given?
 end
 
+def request_params
+  example.metadata[:request_params]
+end
+
 def respond_with(expected_status, &block)
   description = metadata[:description]
   example description do
     setup_instances
-    request_params = evaluate_params example.metadata[:request_params]
+    evaluate_request_params!
     do_request request_params.dup
     assert_response expected_status, &block
   end
@@ -35,7 +39,7 @@ def assert_response(expected_status, &block)
   end
 end
 
-def evaluate_params(request_params)
+def evaluate_request_params!
   request_params.each do |name, value|
     request_params[name] = instance_exec(&value) if value.is_a? Proc
   end
