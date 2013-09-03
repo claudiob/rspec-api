@@ -24,12 +24,14 @@ def request(description, request_params = {})
       example_requests.push filter_request
     end
     if metadata[:sort_parameters]
-      name = metadata[:sort_parameters][:name]
-      sort_request = metadata[:sort_parameters].except(:name, :block)
-      sort_request[:description] = " sorted by #{name}"
-      sort_request[:request_params] = {sort: name}
-      sort_request[:block] = metadata[:sort_parameters][:block]
-      example_requests.push sort_request
+      [true, false].each do |ascending|
+        name = metadata[:sort_parameters][:name]
+        sort_request = metadata[:sort_parameters].except(:name, :block)
+        sort_request[:description] = " sorted by #{name} #{ascending ? '↑' : '↓'}"
+        sort_request[:request_params] = {sort: "#{ascending ? '' : '-'}#{name}"}
+        sort_request[:block] = metadata[:sort_parameters][:block]
+        example_requests.push sort_request
+      end
     end
   end
 

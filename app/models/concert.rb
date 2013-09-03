@@ -10,7 +10,8 @@ class Concert < ActiveRecord::Base
 
   def self.sort(sorting)
     case sorting
-      when 'time' then order(:year)
+      when 'time' then order(year: :asc)
+      when '-time' then order(year: :desc)
       else all
     end
   end
