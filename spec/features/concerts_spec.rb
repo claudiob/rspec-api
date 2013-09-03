@@ -5,20 +5,16 @@ resource 'Concerts', accepts: :json, returns: :json do
   has_attribute :where, :string
   has_attribute :year, :integer, can_be_nil: true
 
+  accepts_filter :when, on: :year, given: existing(:year) do |concerts|
+    concerts.each do |concert|
+      expect(concert['year']).to eq request_params[:when]
+    end
+  end
+
   get '/concerts', array: true do
     request 'Get the list of concerts' do
       respond_with :ok do |concerts|
         expect(concerts.size).to be instances.count
-      end
-    end
-  end
-
-  get '/concerts/?when=:when', array: true, on: :year do
-    request 'Get the concerts in a year', when: existing(:year) do
-      respond_with :ok do |concerts|
-        concerts.each do |concert|
-          expect(concert['year']).to eq request_params[:when]
-        end
       end
     end
   end
