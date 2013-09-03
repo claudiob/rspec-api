@@ -8,6 +8,13 @@ class Concert < ActiveRecord::Base
     end
   end
 
+  def self.sort(sorting)
+    case sorting
+      when 'time' then order(:year)
+      else all
+    end
+  end
+
 private
 
   def self.valid_filters

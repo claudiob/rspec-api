@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'spec_helper'
 require 'rspec_api_documentation/dsl'
 
@@ -21,6 +22,14 @@ def request(description, request_params = {})
       filter_request[:request_params] = {name => metadata[:filter_parameters][:given]}
       filter_request[:block] = metadata[:filter_parameters][:block]
       example_requests.push filter_request
+    end
+    if metadata[:sort_parameters]
+      name = metadata[:sort_parameters][:name]
+      sort_request = metadata[:sort_parameters].except(:name, :block)
+      sort_request[:description] = " sorted by #{name}"
+      sort_request[:request_params] = {sort: name}
+      sort_request[:block] = metadata[:sort_parameters][:block]
+      example_requests.push sort_request
     end
   end
 

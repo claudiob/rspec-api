@@ -11,6 +11,10 @@ resource 'Concerts', accepts: :json, returns: :json do
     end
   end
 
+  accepts_sort :time, on: :year do |concerts|
+    expect(concerts).to be_sorted_by :year
+  end
+
   get '/concerts', array: true do
     request 'Get the list of concerts' do
       respond_with :ok do |concerts|

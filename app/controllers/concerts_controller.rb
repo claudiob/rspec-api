@@ -2,7 +2,8 @@ class ConcertsController < ApplicationController
   before_action :set_concert, only: [:show, :edit, :update, :destroy]
 
   def index
-    @concerts = Concert.filter params
+    filters, sorting = params.except(:sort), params[:sort]
+    @concerts = Concert.filter(filters).sort(sorting)
   end
 
   def show
