@@ -10,9 +10,31 @@ shared_context 'return_json', returns: :json do
 end
 
 def request(description, request_params = {})
-  metadata[:description] = description
-  metadata[:request_params] = request_params
-  yield if block_given?
+  default_request = {}
+  example_requests = [default_request]
+
+  if metadata[:array]
+    if metadata[:filter_parameters]
+      name = metadata[:filter_parameters][:name]
+      filter_request = metadata[:filter_parameters].except(:name, :given, :block)
+      filter_request[:description] = " filtered by #{name}"
+      filter_request[:request_params] = {name => metadata[:filter_parameters][:given]}
+      filter_request[:block] = metadata[:filter_parameters][:block]
+      example_requests.push filter_request
+    end
+  end
+
+  example_requests.each do |request_metadata|
+    (request_metadata[:description] ||= '').prepend description
+    (request_metadata[:request_params] ||= {}).merge! request_params
+    metadata.merge! request_metadata
+    yield if block_given?
+  end
+end
+
+def example_requests
+  default_request = {}
+  [default_request] + (metadata[:extra_requests] ||= [])
 end
 
 def request_params
@@ -25,7 +47,7 @@ def respond_with(expected_status, &block)
     setup_instances
     evaluate_request_params!
     do_request request_params.dup
-    assert_response expected_status, &block
+    assert_response expected_status, &example.metadata.fetch(:block, block)
   end
 end
 

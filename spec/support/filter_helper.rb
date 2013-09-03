@@ -1,5 +1,5 @@
 require 'spec_helper'
 
 def accepts_filter(name, options = {}, &block)
-  # TO DO
+  metadata[:filter_parameters] = options.merge name: name, block: block
 end
