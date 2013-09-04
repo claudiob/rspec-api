@@ -39,6 +39,9 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'kaminari'       # add pagination to models/controllers
+gem 'api-pagination' # add pagination Link headers to API
+
 group :test do
   gem 'rspec-rails'
 end

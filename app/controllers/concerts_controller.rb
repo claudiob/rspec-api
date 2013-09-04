@@ -1,9 +1,10 @@
 class ConcertsController < ApplicationController
   before_action :set_concert, only: [:show, :edit, :update, :destroy]
+  after_action only: [:index] { paginate :concerts }
 
   def index
-    filters, sorting = params.except(:sort), params[:sort]
-    @concerts = Concert.filter(filters).sort(sorting)
+    filters, sorting, page = params.except(:sort, :page), params[:sort], params[:page]
+    @concerts = Concert.filter(filters).sort(sorting).page(page)
   end
 
   def show
