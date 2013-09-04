@@ -15,6 +15,8 @@ resource 'Concerts', accepts: :json, returns: :json do
     expect(concerts).to be_sorted_by :year
   end
 
+  accepts_page :page
+
   get '/concerts', array: true do
     request 'Get the list of concerts' do
       respond_with :ok do |concerts|

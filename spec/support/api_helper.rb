@@ -33,6 +33,14 @@ def request(description, request_params = {})
         example_requests.push sort_request
       end
     end
+    if metadata[:page_parameters]
+      name =  metadata[:page_parameters][:name]
+      page_request = {}
+      page_request[:description] = " paginated by #{name}"
+      (page_request[:request_params] = {})[name] = 1
+      page_request[:block] = -> _ { assert_pagination_links }
+      example_requests.push page_request
+    end
   end
 
   example_requests.each do |request_metadata|
@@ -41,11 +49,6 @@ def request(description, request_params = {})
     metadata.merge! request_metadata
     yield if block_given?
   end
-end
-
-def example_requests
-  default_request = {}
-  [default_request] + (metadata[:extra_requests] ||= [])
 end
 
 def request_params
