@@ -38,6 +38,7 @@ def request(description, request_params = {})
       page_request = {}
       page_request[:description] = " paginated by #{name}"
       (page_request[:request_params] = {})[name] = 1
+      page_request[:min_pages] = 2
       page_request[:block] = -> _ { assert_pagination_links }
       example_requests.push page_request
     end
