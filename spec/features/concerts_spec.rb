@@ -5,17 +5,17 @@ resource 'Concerts', accepts: :json, returns: :json do
   has_attribute :where, :string
   has_attribute :year, :integer, can_be_nil: true
 
-  accepts_filter :when, on: :year, given: existing(:year) do |concerts|
+  accepts filter: :when, on: :year, given: existing(:year) do |concerts|
     concerts.each do |concert|
       expect(concert['year']).to eq request_params[:when]
     end
   end
 
-  accepts_sort :time, on: :year do |concerts|
+  accepts sort: :time, on: :year do |concerts|
     expect(concerts).to be_sorted_by :year
   end
 
-  accepts_page :page
+  accepts page: :page
 
   get '/concerts', array: true do
     request 'Get the list of concerts' do
