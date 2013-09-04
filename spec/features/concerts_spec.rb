@@ -19,9 +19,7 @@ resource 'Concerts', accepts: :json, returns: :json do
 
   get '/concerts', array: true do
     request 'Get the list of concerts' do
-      respond_with :ok do |concerts|
-        expect(concerts.size).to be instances.count
-      end
+      respond_with :ok
     end
   end
 
