@@ -32,7 +32,7 @@
       <h1>Concerts API</h1>
 
       <div class="article">
-        <h2>Update an unknown concert</h2>
+        <h2>Updating an existing concert</h2>
         <h3>PUT /concerts/:id</h3>
 
 
@@ -45,7 +45,7 @@ Content-Type: application/x-www-form-urlencoded
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">PUT /concerts/0</pre>
+          <pre class="request route highlight">PUT /concerts/1</pre>
 
 
             <h4>Body</h4>
@@ -58,15 +58,17 @@ Cookie: </pre>
 X-XSS-Protection: 1; mode=block
 X-Content-Type-Options: nosniff
 X-UA-Compatible: chrome=1
-Content-Type: text/html
-Cache-Control: no-cache
-X-Request-Id: ce26ccad-4990-4ba9-80cc-31399d85aa27
-X-Runtime: 0.002181
-Content-Length: 1</pre>
+Location: http://example.org/concerts/1
+Content-Type: application/json; charset=utf-8
+ETag: &quot;7b218228c2701cf3893804881fb2ed04&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: 3e49d169-e1fd-45c3-9da6-f12ef91d26b6
+X-Runtime: 0.005149
+Content-Length: 43</pre>
             <h4>Status</h4>
-            <pre class="response status">404 Not Found</pre>
+            <pre class="response status">200 OK</pre>
               <h4>Body</h4>
-              <pre class="response body"> </pre>
+              <pre class="response body">{"where":"vhJjOxGqXBImazgwpHV","year":2011}</pre>
       </div>
     </div>
   </body>

@@ -32,8 +32,8 @@
       <h1>Concerts API</h1>
 
       <div class="article">
-        <h2>Update an existing concert</h2>
-        <h3>PUT /concerts/:id</h3>
+        <h2>Getting an unknown concert</h2>
+        <h3>GET /concerts/:id</h3>
 
 
           <h3>Request</h3>
@@ -41,15 +41,12 @@
           <h4>Headers</h4>
           <pre class="request headers">Accept: application/json
 Host: example.org
-Content-Type: application/x-www-form-urlencoded
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">PUT /concerts/1</pre>
+          <pre class="request route highlight">GET /concerts/0</pre>
 
 
-            <h4>Body</h4>
-            <pre class="request body">concert[year]=2011</pre>
 
 
             <h3>Response</h3>
@@ -58,17 +55,15 @@ Cookie: </pre>
 X-XSS-Protection: 1; mode=block
 X-Content-Type-Options: nosniff
 X-UA-Compatible: chrome=1
-Location: http://example.org/concerts/1
-Content-Type: application/json; charset=utf-8
-ETag: &quot;03c69e9ef138a674a09239b57db089d0&quot;
-Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: 80594fc4-b67c-4d3e-8801-bcde2b2e88c1
-X-Runtime: 0.005728
-Content-Length: 56</pre>
+Content-Type: text/html
+Cache-Control: no-cache
+X-Request-Id: 27de6b12-c501-4f11-b1e0-6ae5e2904761
+X-Runtime: 0.010370
+Content-Length: 1</pre>
             <h4>Status</h4>
-            <pre class="response status">200 OK</pre>
+            <pre class="response status">404 Not Found</pre>
               <h4>Body</h4>
-              <pre class="response body">{"where":"7b669c0778e7c0ca399e77111d42a2d7","year":2011}</pre>
+              <pre class="response body"> </pre>
       </div>
     </div>
   </body>

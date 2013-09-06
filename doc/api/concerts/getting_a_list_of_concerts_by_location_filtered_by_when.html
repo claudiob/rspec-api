@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Concerts API</title>
+    <meta charset="utf-8">
+    <style>
+      td.required .name:after {
+        float: right;
+        content: "required";
+        font-weight: normal;
+        color: #F08080;
+      }
+
+      p {
+        padding: 15px;
+        font-size: 130%;
+      }
+
+      pre {
+        white-space: pre-wrap;
+      }
+
+      body {
+        margin-left: auto;
+        margin-right: auto;
+        width: 900px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Concerts API</h1>
+
+      <div class="article">
+        <h2>Getting a list of concerts by location filtered by when</h2>
+        <h3>GET /locations/:location/concerts</h3>
+
+
+          <h3>Request</h3>
+
+          <h4>Headers</h4>
+          <pre class="request headers">Accept: application/json
+Host: example.org
+Cookie: </pre>
+
+          <h4>Route</h4>
+          <pre class="request route highlight">GET /locations/sgnmzauesdy/concerts?when=8294</pre>
+
+            <h4>Query Parameters</h4>
+            <pre class="request query_parameters highlight">when: 8294</pre>
+
+
+
+            <h3>Response</h3>
+            <h4>Headers</h4>
+            <pre class="response headers">X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-UA-Compatible: chrome=1
+Content-Type: application/json; charset=utf-8
+ETag: &quot;7ce57d620f7033eb7565a462ca720d78&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: 7f913d7a-e3f5-473d-8fe8-b98d7fdb7578
+X-Runtime: 0.004591
+Content-Length: 37</pre>
+            <h4>Status</h4>
+            <pre class="response status">200 OK</pre>
+              <h4>Body</h4>
+              <pre class="response body">[{"where":"SGNmzAuesDy","year":8294}]</pre>
+      </div>
+    </div>
+  </body>
+</html>

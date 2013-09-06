@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Concerts API</title>
+    <meta charset="utf-8">
+    <style>
+      td.required .name:after {
+        float: right;
+        content: "required";
+        font-weight: normal;
+        color: #F08080;
+      }
+
+      p {
+        padding: 15px;
+        font-size: 130%;
+      }
+
+      pre {
+        white-space: pre-wrap;
+      }
+
+      body {
+        margin-left: auto;
+        margin-right: auto;
+        width: 900px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Concerts API</h1>
+
+      <div class="article">
+        <h2>Getting a list of concerts sorted by time ↓</h2>
+        <h3>GET /concerts</h3>
+
+
+          <h3>Request</h3>
+
+          <h4>Headers</h4>
+          <pre class="request headers">Accept: application/json
+Host: example.org
+Cookie: </pre>
+
+          <h4>Route</h4>
+          <pre class="request route highlight">GET /concerts?sort=-time</pre>
+
+            <h4>Query Parameters</h4>
+            <pre class="request query_parameters highlight">sort: -time</pre>
+
+
+
+            <h3>Response</h3>
+            <h4>Headers</h4>
+            <pre class="response headers">X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-UA-Compatible: chrome=1
+Content-Type: application/json; charset=utf-8
+ETag: &quot;38b72f13e7d4627b76d5c1fb6bbbbecc&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: d67809fb-2aeb-40ce-b4d7-275aca722b8b
+X-Runtime: 0.003637
+Content-Length: 88</pre>
+            <h4>Status</h4>
+            <pre class="response status">200 OK</pre>
+              <h4>Body</h4>
+              <pre class="response body">[{"where":"vGHZytwOomJVCLbgTal","year":45330},{"where":"uFEBVUsxyCNXkiQO","year":24060}]</pre>
+      </div>
+    </div>
+  </body>
+</html>

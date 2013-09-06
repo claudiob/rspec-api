@@ -32,8 +32,8 @@
       <h1>Concerts API</h1>
 
       <div class="article">
-        <h2>Get the list of concerts</h2>
-        <h3>GET /concerts</h3>
+        <h2>Deleting an unknown concert</h2>
+        <h3>DELETE /concerts/:id</h3>
 
 
           <h3>Request</h3>
@@ -41,10 +41,11 @@
           <h4>Headers</h4>
           <pre class="request headers">Accept: application/json
 Host: example.org
+Content-Type: application/x-www-form-urlencoded
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">GET /concerts</pre>
+          <pre class="request route highlight">DELETE /concerts/0</pre>
 
 
 
@@ -55,16 +56,15 @@ Cookie: </pre>
 X-XSS-Protection: 1; mode=block
 X-Content-Type-Options: nosniff
 X-UA-Compatible: chrome=1
-Content-Type: application/json; charset=utf-8
-ETag: &quot;6c3bd2287605ae2464d2d83877b362a7&quot;
-Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: 962c42e6-d7a8-4cdc-b989-20ccc1bb77a5
-X-Runtime: 0.003592
-Content-Length: 59</pre>
+Content-Type: text/html
+Cache-Control: no-cache
+X-Request-Id: 625d82cb-2718-42d7-9459-67469e877330
+X-Runtime: 0.004293
+Content-Length: 1</pre>
             <h4>Status</h4>
-            <pre class="response status">200 OK</pre>
+            <pre class="response status">404 Not Found</pre>
               <h4>Body</h4>
-              <pre class="response body">[{"where":"f457965f2d76915201ff087382c530b2","year":37902}]</pre>
+              <pre class="response body"> </pre>
       </div>
     </div>
   </body>

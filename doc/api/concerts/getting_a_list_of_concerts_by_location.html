@@ -32,8 +32,8 @@
       <h1>Concerts API</h1>
 
       <div class="article">
-        <h2>Delete an unknown concert</h2>
-        <h3>DELETE /concerts/:id</h3>
+        <h2>Getting a list of concerts by location</h2>
+        <h3>GET /locations/:location/concerts</h3>
 
 
           <h3>Request</h3>
@@ -41,11 +41,10 @@
           <h4>Headers</h4>
           <pre class="request headers">Accept: application/json
 Host: example.org
-Content-Type: application/x-www-form-urlencoded
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">DELETE /concerts/0</pre>
+          <pre class="request route highlight">GET /locations/z/concerts</pre>
 
 
 
@@ -56,15 +55,16 @@ Cookie: </pre>
 X-XSS-Protection: 1; mode=block
 X-Content-Type-Options: nosniff
 X-UA-Compatible: chrome=1
-Content-Type: text/html
-Cache-Control: no-cache
-X-Request-Id: 224e4476-3716-440f-92cc-4da532912573
-X-Runtime: 0.002031
-Content-Length: 1</pre>
+Content-Type: application/json; charset=utf-8
+ETag: &quot;0197f43103c59c7ed4c4d60bf12c63f4&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: be51e066-e4ff-4545-92ab-ad8c0f29f16d
+X-Runtime: 0.003850
+Content-Length: 27</pre>
             <h4>Status</h4>
-            <pre class="response status">404 Not Found</pre>
+            <pre class="response status">200 OK</pre>
               <h4>Body</h4>
-              <pre class="response body"> </pre>
+              <pre class="response body">[{"where":"z","year":null}]</pre>
       </div>
     </div>
   </body>

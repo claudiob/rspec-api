@@ -32,8 +32,8 @@
       <h1>Concerts API</h1>
 
       <div class="article">
-        <h2>Delete an existing concert</h2>
-        <h3>DELETE /concerts/:id</h3>
+        <h2>Creating an valid concert</h2>
+        <h3>POST /concerts</h3>
 
 
           <h3>Request</h3>
@@ -45,9 +45,11 @@ Content-Type: application/x-www-form-urlencoded
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">DELETE /concerts/1</pre>
+          <pre class="request route highlight">POST /concerts</pre>
 
 
+            <h4>Body</h4>
+            <pre class="request body">concert[where]=Austin</pre>
 
 
             <h3>Response</h3>
@@ -56,11 +58,17 @@ Cookie: </pre>
 X-XSS-Protection: 1; mode=block
 X-Content-Type-Options: nosniff
 X-UA-Compatible: chrome=1
-Cache-Control: no-cache
-X-Request-Id: 9c1d4474-ccf0-4e0e-b416-b44c1957de92
-X-Runtime: 0.004044</pre>
+Location: http://example.org/concerts/3
+Content-Type: application/json; charset=utf-8
+ETag: &quot;82569fadb265f9ebbec2a320f168358c&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: 23c0226f-0c6d-4cf5-9e9d-f2baa1bb8bdb
+X-Runtime: 0.003853
+Content-Length: 30</pre>
             <h4>Status</h4>
-            <pre class="response status">204 No Content</pre>
+            <pre class="response status">201 Created</pre>
+              <h4>Body</h4>
+              <pre class="response body">{"where":"Austin","year":null}</pre>
       </div>
     </div>
   </body>
