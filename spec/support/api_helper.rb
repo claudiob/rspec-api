@@ -13,36 +13,7 @@ end
 def request(description, request_params = {})
   default_request = {}
   example_requests = [default_request]
-
-  if metadata[:array]
-    if metadata[:filter_parameters]
-      name = metadata[:filter_parameters][:name]
-      filter_request = metadata[:filter_parameters].except(:name, :given, :block)
-      filter_request[:description] = " filtered by #{name}"
-      filter_request[:request_params] = {name => metadata[:filter_parameters][:given]}
-      filter_request[:block] = metadata[:filter_parameters][:block]
-      example_requests.push filter_request
-    end
-    if metadata[:sort_parameters]
-      [true, false].each do |ascending|
-        name = metadata[:sort_parameters][:name]
-        sort_request = metadata[:sort_parameters].except(:name, :block)
-        sort_request[:description] = " sorted by #{name} #{ascending ? '↑' : '↓'}"
-        sort_request[:request_params] = {sort: "#{ascending ? '' : '-'}#{name}"}
-        sort_request[:block] = metadata[:sort_parameters][:block]
-        example_requests.push sort_request
-      end
-    end
-    if metadata[:page_parameters]
-      name =  metadata[:page_parameters][:name]
-      page_request = {}
-      page_request[:description] = " paginated by #{name}"
-      (page_request[:request_params] = {})[name] = 1
-      page_request[:min_pages] = 2
-      page_request[:block] = -> _ { assert_pagination_links }
-      example_requests.push page_request
-    end
-  end
+  example_requests.concat query_parameters_requests if metadata[:array]
 
   example_requests.each do |request_metadata|
     (request_metadata[:description] ||= '').prepend description
