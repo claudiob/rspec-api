@@ -5,7 +5,7 @@ resource 'Concerts', accepts: :json, returns: :json do
   has_attribute :where, :string
   has_attribute :year, :integer, can_be_nil: true
 
-  accepts filter: :when, on: :year, given: existing(:year) do |concerts|
+  accepts filter: :when, on: :year do |concerts|
     concerts.each do |concert|
       expect(concert['year']).to eq request_params[:when]
     end

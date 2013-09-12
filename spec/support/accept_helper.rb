@@ -34,8 +34,9 @@ end
 
 def filter_parameters_requests(params)
   params.except(:given, :block).tap do |req|
+    value = params.fetch :given, apply(:as_json, to: existing(params[:on]))
     req[:description] = " filtered by #{params[:filter]}"
-    req[:request_params] = {params[:filter] => params[:given]}
+    req[:request_params] = {params[:filter] => value}
     req[:block] = params[:block]
   end
 end
