@@ -36,12 +36,18 @@ end
 
 def assert_attribute_types(values, expected_type, can_be_nil)
   values.compact! if can_be_nil
-  expect(values.all? {|value| matches_type? value, expected_type}).to be_true
+  expect(values).to all_match_type expected_type
 end
 
 def matches_type?(value, type)
   case type
     when :url then value =~ URI::regexp
     else value.is_a? type.to_s.classify.constantize
+  end
+end
+
+RSpec::Matchers.define :all_match_type do |type|
+  match do |values|
+    values.all? {|value| matches_type? value, type}
   end
 end
