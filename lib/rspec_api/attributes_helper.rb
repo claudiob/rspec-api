@@ -29,6 +29,7 @@ def random_attribute_value(options)
     case options[:type]
       when :string then [*('a'..'z'), *('A'..'Z')].sample(Random.rand 32).join
       when :integer then Random.rand(2**16)
+      when :url then "http://example.com/#{SecureRandom.urlsafe_base64}"
     end
   end
 end
@@ -39,5 +40,8 @@ def assert_attribute_types(values, expected_type, can_be_nil)
 end
 
 def matches_type?(value, type)
-  value.is_a? type.to_s.classify.constantize
+  case type
+    when :url then value =~ URI::regexp
+    else value.is_a? type.to_s.classify.constantize
+  end
 end
