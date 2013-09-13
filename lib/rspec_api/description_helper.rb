@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 def existing(key)
   metadata[:description_attribute] = 'an existing'
   -> { instances.any key }

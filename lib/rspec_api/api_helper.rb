@@ -1,7 +1,4 @@
 # encoding: UTF-8
-require 'spec_helper'
-require 'rspec_api_documentation/dsl'
-
 shared_context 'accept_json', accepts: :json do
   header 'Accept', 'application/json'
 end

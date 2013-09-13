@@ -1,6 +1,3 @@
-require 'spec_helper'
-require 'rspec_api_documentation/dsl'
-
 def setup_instances
   instances.create random_values_for_attributes
   instances.create random_values_for_attributes

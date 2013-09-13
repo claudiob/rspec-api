@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 def accepts(options = {}, &block)
   parameters = block_given? ? options.merge(block: block) : options
   (metadata[:query_parameters] ||= []).push parameters
