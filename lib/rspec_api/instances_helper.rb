@@ -27,10 +27,11 @@ def apply(method_name, options = {})
 end
 
 def stub_instances_total_pages(total_pages)
+  return unless instances.respond_to?(:page) and total_pages.present?
   page_method = instances.method :page
   instances.stub(:page) do |page|
     page_method.call(page).tap do |proxy|
       proxy.stub(:total_pages).and_return total_pages
     end
-  end if total_pages
+  end
 end
