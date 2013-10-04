@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 def accepts(options = {}, &block)
   parameters = block_given? ? options.merge(block: block) : options
   (metadata[:query_parameters] ||= []).push parameters

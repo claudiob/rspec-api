@@ -1,4 +1,3 @@
-# encoding: UTF-8
 shared_context 'accept_json', accepts: :json do
   header 'Accept', 'application/json'
 end
