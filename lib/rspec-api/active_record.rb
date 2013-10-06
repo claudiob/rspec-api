@@ -6,14 +6,9 @@ module DSL
 
       module ClassMethods
         def setup_fixtures
-          setup_one_fixture
-        end
-
-        def setup_one_fixture
-          model = rspec_api[:resource_name].singularize.constantize
-          # TODO: Don't hard-code where, use the type and can_be_nil of attributes
-          before(:all) { @fixture = model.first_or_create! where: 'here' }
-          after(:all) { @fixture.destroy }
+          additional = rspec_api[:sort] && rspec_api[:array]
+          before_create_fixtures additional
+          after_destroy_fixtures
         end
 
         def existing(field)
@@ -29,6 +24,22 @@ module DSL
 
         def apply(method_name, options = {})
           -> { options[:to].call.send method_name }
+        end
+
+      private
+
+        def before_create_fixtures(additional)
+          model = rspec_api[:resource_name].singularize.constantize
+          before(:all) do
+            # TODO: Don't hard-code where, use the type and can_be_nil of attributes
+            model.create! where: 'here', year: 2010
+            model.create! where: 'here', year: 2000 if additional
+          end
+        end
+
+        def after_destroy_fixtures
+          model = rspec_api[:resource_name].singularize.constantize
+          after(:all) { model.destroy_all }
         end
       end
     end

@@ -7,13 +7,7 @@ module DSL
     end
 
     module ClassMethods
-      def request(text, values = {}, &block)
-        # NOTE: setup_fixtures *might* go before the context if all the
-        # cases have the same fixtures. But that might not *always* be: for
-        # instance the same index action with two different filters might
-        # require different fixtures. If that happens, move setup_fixtures
-        # back inside each context
-        setup_fixtures
+      def request(text=nil, values = {}, &block)
         extra_parameters.each do |params|
           request_with_extra_params text, values.merge(params), &block
         end
@@ -27,6 +21,13 @@ module DSL
 
       def request_with_extra_params(text, values = {}, &block)
         context request_description(text, values), rspec_api_dsl: :request do
+          # NOTE: Having setup_fixtures inside the context sets up different
+          # fixtures for each `request` inside the same `get`. This might be
+          # a little slower on the DB, but ensures that two `request`s do not
+          # conflict. For instance, if you have two `request` inside a `delete`
+          # and the first deletes an instance, the second `request` is no
+          # affected.
+          setup_fixtures
           setup_request rspec_api[:verb], rspec_api[:route], values
           instance_eval(&block) if block_given?
         end
@@ -35,6 +36,7 @@ module DSL
       def extra_parameters
         [].tap do |optional_params|
           optional_params << {} # default: no extra params
+          optional_params << {sort: rspec_api[:sort][:parameter]} if rspec_api[:sort] && rspec_api[:array]
           optional_params << {page: 2} if rspec_api[:page] && rspec_api[:array]
         end
       end
@@ -59,7 +61,7 @@ module DSL
         if values.empty?
           'by default'
         else
-          text = "with" if text.empty?
+          text = "with" unless text.present?
           "#{text} #{values.map{|k,v| "#{k}#{" #{v}" unless v.is_a?(Proc)}"}.to_sentence}"
         end
       end

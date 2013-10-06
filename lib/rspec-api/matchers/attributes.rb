@@ -15,11 +15,12 @@ RSpec::Matchers.define :have_attribute do |name, options = {}|
   end
 
   description do # TODO: add parent name
-    %Q(include the field #{name.to_json} of type #{options[:type]}#{' or nil' if can_be_nil})
+    type = "#{options[:type]}#{' or nil' if can_be_nil}"
+    %Q(include the field #{name.to_json} of type #{type})
   end
 
   failure_message_for_should do |json|
-    %Q(should include the field #{name.to_json} of type #{options[:type]}#{' or nil' if can_be_nil}, but is #{json})
+    %Q(should #{description}, but is #{json})
   end
 end
 

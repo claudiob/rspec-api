@@ -4,10 +4,10 @@ RSpec::Matchers.define :be_status do |expected|
   end
 
   description do
-    "be #{expected}"
+    %Q(be #{expected})
   end
 
-  failure_message_for_should do |response|
-    %Q(should be #{expected}, but is #{actual})
+  failure_message_for_should do |actual|
+    %Q(should #{description}, but is #{actual})
   end
 end

@@ -7,10 +7,10 @@ RSpec::Matchers.define :include_fixture_data do
   end
 
   description do
-    "have some values from the fixtures"
+    %Q(have some values from the fixtures)
   end
 
   failure_message_for_should do |response|
-    "expected values from fixtures, but got an empty array"
+    %Q(should #{description}, but got an empty array)
   end
 end

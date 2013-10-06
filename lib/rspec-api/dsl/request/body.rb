@@ -9,6 +9,7 @@ module DSL
         should_return_a_json rspec_api[:array] if success? status_code
         should_include_attributes rspec_api.fetch(:attributes, {}) if success? status_code
         should_include_fixture_data if rspec_api[:array] && !rspec_api[:page]
+        should_be_sorted_by(rspec_api[:sort]) if rspec_api[:array] && rspec_api[:sort]
         should_satisfy_expectations_in &block if block_given?
       end
 
@@ -20,6 +21,10 @@ module DSL
 
       def should_include_fixture_data
         it { expect(response_body).to include_fixture_data }
+      end
+
+      def should_be_sorted_by(sort_options)
+        it { expect(response_body).to be_sorted_by(sort_options[:parameter].to_s == request_params['sort'] ? sort_options[:attribute] : nil) }
       end
 
       def should_satisfy_expectations_in(&block)

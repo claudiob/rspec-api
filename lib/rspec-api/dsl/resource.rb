@@ -26,6 +26,10 @@ module DSL
         rspec_api[:page] = page_parameter
       end
 
+      def accepts_sort(sort_parameter, options={})
+        rspec_api[:sort] = {parameter: sort_parameter, attribute: options[:on]}
+      end
+
     private
 
       def nested_attribute(name)

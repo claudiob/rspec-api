@@ -10,7 +10,7 @@ RSpec::Matchers.define :have_field do |key, options = {}|
   end
 
   failure_message_for_should do |item|
-    %Q(should have the value #{value.to_json} in the field #{key}, but got #{item})
+    %Q(should #{description}, but got #{item})
   end
 end
 
@@ -27,6 +27,6 @@ RSpec::Matchers.define :have_fields do |key, options = {}|
   end
 
   failure_message_for_should do |items|
-    %Q(should have the value #{value.to_json} in the field #{key} after #{after}, but got #{items})
+    %Q(should #{description}, but got #{items})
   end
 end

@@ -10,11 +10,11 @@ RSpec::Matchers.define :have_pagination_links do |page|
   end
 
   description do
-    "include 'Link' (for pagination)"
+    %Q(include 'Link' (for pagination))
   end
 
   failure_message_for_should do |response_headers|
-    %Q(should include 'Link' (for pagination), but are #{response_headers})
+    %Q(should #{description}, but are #{response_headers})
   end
 end
 

@@ -8,6 +8,6 @@ RSpec::Matchers.define :have_json_content_type do
   end
 
   failure_message_for_should do |item|
-    %Q(should include 'Content-Type': 'application/json; charset=utf-8', but are #{response_headers})
+    %Q(should #{description}, but are #{response_headers})
   end
 end

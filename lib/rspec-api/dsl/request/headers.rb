@@ -7,7 +7,7 @@ module DSL
     module ClassMethods
       def should_match_headers_expectations(status_code)
         should_have_json_content_type if has_entity_body? status_code
-        should_be_paginated(rspec_api[:page]) if rspec_api[:array] # find a better name
+        should_be_paginated(rspec_api[:page]) if rspec_api[:array] && rspec_api[:page]
       end
 
     private
