@@ -36,8 +36,15 @@ module DSL
       def extra_parameters
         [].tap do |optional_params|
           optional_params << {} # default: no extra params
-          optional_params << {sort: rspec_api[:sort][:parameter]} if rspec_api[:sort] && rspec_api[:array]
-          optional_params << {page: 2} if rspec_api[:page] && rspec_api[:array]
+          if rspec_api[:array]
+            if rspec_api[:sort]
+              optional_params << {sort: rspec_api[:sort][:parameter]}
+              optional_params << {sort: "-#{rspec_api[:sort][:parameter]}"}
+            end
+            if rspec_api[:page]
+              optional_params << {page: 2}
+            end
+          end
         end
       end
 

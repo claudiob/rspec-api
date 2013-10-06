@@ -24,7 +24,15 @@ module DSL
       end
 
       def should_be_sorted_by(sort_options)
-        it { expect(response_body).to be_sorted_by(sort_options[:parameter].to_s == request_params['sort'] ? sort_options[:attribute] : nil) }
+        it {
+          if sort_options[:parameter].to_s == request_params['sort']
+            expect(response_body).to be_sorted_by(sort_options[:attribute], verse: :asc)
+          elsif "-#{sort_options[:parameter].to_s}" == request_params['sort']
+            expect(response_body).to be_sorted_by(sort_options[:attribute], verse: :desc)
+          else
+            expect(response_body).to be_sorted_by(nil)
+          end
+        }
       end
 
       def should_satisfy_expectations_in(&block)
