@@ -1,0 +1,7 @@
+require_relative 'matchers/status'
+require_relative 'matchers/body'
+require_relative 'matchers/content_type'
+require_relative 'matchers/fields'
+require_relative 'matchers/attributes'
+require_relative 'matchers/fixtures'
+require_relative 'matchers/page'

@@ -1,8 +1,20 @@
-require 'rspec_api_documentation'
-require 'rspec_api_documentation/dsl'
+require 'rspec-api/dsl/resource'
+require 'rspec-api/dsl/get'
+require 'rspec-api/dsl/request'
 
-require 'rspec-api/accept_helper'
-require 'rspec-api/attributes_helper'
-require 'rspec-api/description_helper'
-require 'rspec-api/api_helper'
-require 'rspec-api/instances_helper'
+module DSL
+end
+
+def resource(name, args = {}, &block)
+  args.merge! rspec_api_dsl: :resource, rspec_api: {resource_name: name}
+  describe name, args, &block
+end
+
+def rspec_api
+  metadata[:rspec_api]
+end
+
+RSpec.configuration.include DSL::Resource, rspec_api_dsl: :resource
+RSpec.configuration.include DSL::Route, rspec_api_dsl: :route
+RSpec.configuration.include DSL::Request, rspec_api_dsl: :request
+RSpec.configuration.backtrace_exclusion_patterns << %r{lib/rspec-api/dsl\.rb}
