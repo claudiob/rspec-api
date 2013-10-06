@@ -1,5 +1,4 @@
 require 'rack/test'
-include Rack::Test::Methods
 
 def app
   Rails.application
@@ -36,5 +35,6 @@ module DSL
 end
 
 
+RSpec.configuration.include Rack::Test::Methods, rspec_api_dsl: :route
 RSpec.configuration.include DSL::RackTest::Route, rspec_api_dsl: :route
 RSpec.configuration.include DSL::RackTest::Request, rspec_api_dsl: :request

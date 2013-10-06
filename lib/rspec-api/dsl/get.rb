@@ -7,13 +7,18 @@ module DSL
     end
 
     module ClassMethods
-      def request(text=nil, values = {}, &block)
+      def request(*args, &block)
+        text, values = parse_request_arguments args
         extra_parameters.each do |params|
           request_with_extra_params text, values.merge(params), &block
         end
       end
 
       def setup_fixtures
+        # To be overriden by more specific modules
+      end
+
+      def existing(field)
         # To be overriden by more specific modules
       end
 
@@ -44,6 +49,9 @@ module DSL
             if rspec_api[:page]
               optional_params << {page: 2}
             end
+            if rspec_api[:filter]
+              optional_params << {rspec_api[:filter][:parameter] => existing(rspec_api[:filter][:attribute])}
+            end
           end
         end
       end
@@ -57,6 +65,8 @@ module DSL
               value = value.call if value.is_a?(Proc)
               interpolated_route[":#{key}"] = value.to_s
               (@request_params ||= {})[key] = value
+            else
+              body[key] = body[key].call if body[key].is_a?(Proc)
             end
           end
           [interpolated_route, body]
@@ -71,6 +81,12 @@ module DSL
           text = "with" unless text.present?
           "#{text} #{values.map{|k,v| "#{k}#{" #{v}" unless v.is_a?(Proc)}"}.to_sentence}"
         end
+      end
+
+      def parse_request_arguments(args)
+        text = args.first.is_a?(String) ? args.first : ''
+        values = args.first.is_a?(String) ? args.second : args.first
+        [text, values || {}] # NOTE: In Ruby 2.0 we could write values.to_h
       end
     end
   end

@@ -30,6 +30,11 @@ module DSL
         rspec_api[:sort] = {parameter: sort_parameter, attribute: options[:on]}
       end
 
+      # TODO: the second 'accepts_filter' should not override the first, but add
+      def accepts_filter(filter_parameter, options={})
+        rspec_api[:filter] = {parameter: filter_parameter, attribute: options[:on]}
+      end
+
     private
 
       def nested_attribute(name)

@@ -8,6 +8,6 @@ RSpec::Matchers.define :be_a_json do |expected_type|
   end
 
   failure_message_for_should do |json|
-    %q(should #{description}, but is #{json})
+    %Q(should #{description}, but is #{json})
   end
 end

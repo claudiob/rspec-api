@@ -8,8 +8,11 @@ module DSL
       def should_match_body_expectations(status_code, &block)
         should_return_a_json rspec_api[:array] if success? status_code
         should_include_attributes rspec_api.fetch(:attributes, {}) if success? status_code
-        should_include_fixture_data if rspec_api[:array] && !rspec_api[:page]
-        should_be_sorted_by(rspec_api[:sort]) if rspec_api[:array] && rspec_api[:sort]
+        if rspec_api[:array]
+          should_include_fixture_data unless rspec_api[:page]
+          should_be_sorted_by(rspec_api[:sort]) if rspec_api[:sort]
+          should_be_filtered_by(rspec_api[:filter]) if rspec_api[:filter]
+        end
         should_satisfy_expectations_in &block if block_given?
       end
 
@@ -31,6 +34,16 @@ module DSL
             expect(response_body).to be_sorted_by(sort_options[:attribute], verse: :desc)
           else
             expect(response_body).to be_sorted_by(nil)
+          end
+        }
+      end
+
+      def should_be_filtered_by(filter_options)
+        it {
+          if json_value = request_params[filter_options[:parameter].to_s]
+            expect(response_body).to be_filtered_by(filter_options[:attribute], json_value)
+          else
+            expect(response_body).to be_filtered_by(nil)
           end
         }
       end

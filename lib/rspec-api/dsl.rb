@@ -17,4 +17,4 @@ end
 RSpec.configuration.include DSL::Resource, rspec_api_dsl: :resource
 RSpec.configuration.include DSL::Route, rspec_api_dsl: :route
 RSpec.configuration.include DSL::Request, rspec_api_dsl: :request
-RSpec.configuration.backtrace_exclusion_patterns << %r{lib/rspec-api/dsl\.rb}
+# requires rspec >= 2.14 : RSpec.configuration.backtrace_exclusion_patterns << %r{lib/rspec-api/dsl\.rb}

@@ -74,8 +74,7 @@ module DSL
       end
 
       def request_params
-        debugger
-        1
+        # TO DO
       end
     end
   end

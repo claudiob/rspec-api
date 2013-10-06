@@ -8,7 +8,6 @@ RSpec::Matchers.define :have_attribute do |name, options = {}|
       elsif can_be_nil
         item.key?(name)
       else
-        debugger unless matches_type?(item[name], type)
         matches_type?(item[name], type)
       end
     end
